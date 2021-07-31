@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <title>Room | Uqueue</title>
+    <link rel="stylesheet" href="https://clonalejandro.io/cdn/clonaweb/malextrap.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <div class="modal" id="addPlaylistModal">
+        <div class="modal-container">
+            <form action="#" onsubmit="return false" method="post">
+                <div class="form-group">
+                    <div> 
+                        <p>Type youtube videos splited by commas <i class="icons-link"></i></p>
+                        <textarea name="playlist" required="required" placeholder="https://www.youtube.com/watch?v=YKqDiNJJPXk,&#10;https://www.youtube.com/watch?v=YKqDiNJJPXk"></textarea>
+                    </div>
+                    <br />
+                    <center><button class="btn green animated" type="submit">Add videos!</button></center>
+                </div>
+            </form>
+            <a class="no-decoration modal-close img-replace"></a>
+        </div>
+    </div>
+    <header class="header">
+        <div class="icon"><a class="no-decoration" href="/"><img width="128" height="32" src="assets/img/logo.svg" /></a></div>
+    </header>
+    <div class="container">
+        <div class="columns">
+            <div class="col-md-9">
+                <h1 class="media-title">Loading....</h1>
+                <div id="player" class="videowrapper"></div>
+            </div>
+            <div class="col-md-2 playlist"></div>
+        </div>
+        <div class="controls">
+            <button id="addPlaylistButton" class="btn animated green">Add video</button>
+            <button onclick="skipVideo()" class="btn animated red">Skip</button>
+        </div>
+        <a class="bubble" onclick="increaseAudio()" style="right: 200px;"><i class="icons-chevron-up"></i></a>
+        <a class="bubble" onclick="reduceAudio()" style="right: 120px"><i class="icons-chevron-down"></i></a>
+        <a class="bubble" id="volumeManager"><i class="icons-volume-off"></i></a>
+    </div>
+    <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+    <script src="https://clonalejandro.io/cdn/clonaweb/malextrap.min.js"></script>
+    <script src="https://clonalejandro.io/cdn/request.js"></script>
+    <script src="./assets/js/socket.js"></script>
+    <script src="./assets/js/player.js"></script>
+</body>
+</html>
