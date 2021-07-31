@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <title>Home | Uqueue</title>
+    <link rel="stylesheet" href="https://clonalejandro.io/cdn/clonaweb/malextrap.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <div class="modal" id="joinRoomModal">
+        <div class="modal-container">
+            <form action="#" onsubmit="return false" method="post">
+                <div class="form-group">
+                    <div> 
+                        <label>Room ID <i class="icons-home"></i></label>
+                        <input type="text" name="room" required="required" />
+                    </div>
+                    <br />
+                    <center><button class="btn green animated" type="submit">Join!</button></center>
+                </div>
+            </form>
+            <a class="no-decoration modal-close img-replace"></a>
+        </div>
+    </div>
+    <div class="modal" id="createRoomModal">
+        <div class="modal-container">
+            <form action="#" onsubmit="return false" method="post">
+                <div class="form-group">
+                    <div> 
+                        <p>Type youtube videos splited by commas <i class="icons-link"></i></p>
+                        <textarea name="playlist" required="required" placeholder="https://www.youtube.com/watch?v=YKqDiNJJPXk,&#10;https://www.youtube.com/watch?v=YKqDiNJJPXk"></textarea>
+                    </div>
+                    <br />
+                    <center><button class="btn green animated" type="submit">Create!</button></center>
+                </div>
+            </form>
+            <a class="no-decoration modal-close img-replace"></a>
+        </div>
+    </div>
+    <header class="header">
+        <div class="icon"><img width="128" height="32" src="assets/img/logo.svg" /></div>
+    </header>
+    <div class="main-buttons">
+        <button id="createButton" class="btn animated yellow">Create Room</button>
+        <button id="joinButton" class="btn animated blue">Join Room</button>
+    </div>
+    <script src="https://clonalejandro.io/cdn/clonaweb/malextrap.min.js"></script>
+    <script src="https://clonalejandro.io/cdn/request.js"></script>
+    <script type="text/javascript">
+        const $ = e => document.querySelector(e)
+        const $$ = e => document.querySelectorAll(e)
+        const modalSetting = {
+            registerCloseEvent: true,
+            registerCloseOut: false,
+        }
+
+        const redirect = uri => setTimeout(() => { window.location.href = uri }, 200)
+
+        const joinRoomModal = new Modal('joinRoomModal', modalSetting)
+        const createRoomModal = new Modal('createRoomModal', modalSetting)
+
+        $("#createButton").addEventListener('click', e => createRoomModal.open())
+        $("#joinButton").addEventListener('click', e => joinRoomModal.open())
+
+        $("#joinRoomModal form").addEventListener('submit', e => {
+            const roomId = $("input[name=room]").value
+            redirect(`room.html?id=${roomId}`)
+        })
+
+        $("#createRoomModal form").addEventListener('submit', e => {
+            const playlist = $("#createRoomModal textarea").value
+                .replaceAll('\n', '')
+                .replaceAll(' ', '')
+                .trim()
+
+            const callback = e => {
+                if (e.status == 200){
+                    const json = JSON.parse(e.responseText);
+                    redirect(`room.html?id=${json.data._id}`)
+                }
+                else alert(e.responseText)
+            }
+
+            new Request(`api/room?queue=${playlist}`, 'POST', callback, `queue=${playlist}`)
+        })
+
+        //Malextrap FIX
+        $$(".modal-close").forEach(e => e.addEventListener('click', () => {
+            joinRoomModal.close()
+            createRoomModal.close()
+        }))
+    </script>
+</body>
+</html> 
